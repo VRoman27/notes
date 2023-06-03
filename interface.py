@@ -13,5 +13,7 @@ def mainMenu(notes):
         return True
     if inputUser == "find":
         return True
+    if inputUser == "save":
+        return True
     if inputUser == "exit":
         return False

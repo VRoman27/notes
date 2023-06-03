@@ -1,10 +1,12 @@
 from datetime import datetime
+from fileManager import *
 
 def addNote(data):
-    data.append({"id":1, 
-                 "header": input("Введите заголовок: "), 
-                 "body": input("Введите текст заметки: "), 
-                 "date": datetime.now()})
+    data.append({"id" :1, 
+                 "header" : input("Введите заголовок: "), 
+                 "body" : input("Введите текст заметки: "), 
+                 "date" : datetime.now()})
+    saveFile(data, "file.csv")
 
 def showAll(data):
     massage = ""
