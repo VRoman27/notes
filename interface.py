@@ -1,8 +1,10 @@
 from methods import *
-def mainMenu(notes):
+from fileManager import *
+def mainMenu(notes, path):
+    
     inputUser = input("Введите команду: ")
     if inputUser == "add":
-        addNote(notes)
+        addNote(notes, path)
         return True
     if inputUser == "show":
         showAll(notes)
@@ -10,10 +12,12 @@ def mainMenu(notes):
     if inputUser == "edit":
         return True
     if inputUser == "delete":
+        deleteNote(notes, int(input("Введите id заметки: ")), path)
         return True
     if inputUser == "find":
         return True
     if inputUser == "save":
+        saveFile(notes, path)
         return True
     if inputUser == "exit":
         return False
