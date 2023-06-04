@@ -19,6 +19,7 @@ def loadFile(data, path):
                      "body" : item[2],
                      "date" : item[3]})
         tmpM.append(int(item[0]))
-    currentIndex = max(tmpM)
-    if currentIndex >= Counter.index:
-        Counter.index = currentIndex
+    if len(tmpM) > 0:
+        currentIndex = max(tmpM)
+        if currentIndex >= Counter.index:
+            Counter.index = currentIndex
