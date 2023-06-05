@@ -1,8 +1,14 @@
 from counter import Counter
+from datetime import datetime
+from convert import stringToDate, dateToString
+
 def saveFile(data, path):
     tmp = list()
-    for item in data:
-        tmp.append(";".join(str(x) for x in item.values()) )
+    for note in data:
+        tmp.append("{};{};{};{}".format(note["id"], 
+                                        note["header"], 
+                                        note["body"], 
+                                        dateToString(note["date"])))
     text = "\n".join(tmp)
     with open(path, "w") as file:
         file.write(text)
@@ -17,7 +23,7 @@ def loadFile(data, path):
         data.append({"id" : int(item[0]), 
                      "header" : item[1], 
                      "body" : item[2],
-                     "date" : item[3]})
+                     "date" : stringToDate(item[3])})
         tmpM.append(int(item[0]))
     if len(tmpM) > 0:
         currentIndex = max(tmpM)

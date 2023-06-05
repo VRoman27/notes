@@ -1,7 +1,7 @@
 from methods import *
-from fileManager import *
+
 def mainMenu(notes, path):
-    
+    print("Чтобы посмотреть список команд введите help")
     inputUser = input("Введите команду: ")
     if inputUser.startswith("add"):
         addNote(notes, path)
@@ -22,11 +22,18 @@ def mainMenu(notes, path):
         return True
     if inputUser.startswith("show"):
         request = inputUser.partition(" ")
-        if request[2] != "":
+        if request[2].startswith("-sel"):
+                request2 = request[2].partition(" ")[2].strip().partition(" to ")                                
+                showNotesInInterval(notes,
+                                    stringToDate(request2[0]),
+                                    stringToDate(request2[2]))
+                return True
+                
+        if request[2] != "":            
             print(noteToString(findNote(notes, request[2])))
             return True
         else:
-            showAll(notes)
+            showNotes(notes)
             return True
     if inputUser.startswith("save"):
         request = inputUser.partition(" ")
@@ -43,6 +50,15 @@ def mainMenu(notes, path):
     if inputUser.startswith("exit"):
         return False
     
-    if inputUser.startswith("id"):
-        print(Counter.index)
+    if inputUser.startswith("help"):
+        print(manual)
         return True
+    
+manual = ("add\t- добавление новой заметки и сохранение изменений.\n" + 
+          "edit\t- редактирование заметкии и сохранение изменений. Необходимо добавлять через пробел id или заголовок редактируемой заметки.\n" +
+          "delete\t- удаление заметки и сохранение изменений. Необходимо добавлять через пробел id или заголовок заметки, которую нужно удалить.\n" +
+          "show\t- без параметра показывает все заметки. Чтобы посмотреть одну запись нужно добавить через пробел id или заголовок.\n" +
+          "\t  параметр -sel <start> to <end> делает выборку по дате. <start> и <end> могут быть пустыми.\n"
+          "save\t- без параметра обновляет текущий файл. Название файла без расширения после пробела меняет файл для текущей сессии\n" +
+          "load\t- без параметра обновляет данные сессии. Название файла без расширения после пробела меняет файл для текущей сессии\n" +
+          "exit\t- выход из программы\n")

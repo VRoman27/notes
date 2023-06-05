@@ -1,5 +1,6 @@
 from datetime import datetime
 from fileManager import *
+from convert import noteToString, notesToString
 from counter import Counter
 def addNote(data, path):
     Counter.index += 1
@@ -8,8 +9,6 @@ def addNote(data, path):
                  "body" : input("Введите текст заметки: "), 
                  "date" : datetime.now()})
     saveFile(data, path)
-
-def noteToString(note): return "{}\n{}|{}\n{}\n{}\n".format("-"*20, note["id"], note["date"], note["header"], note["body"])
 
 def findNote(data, param):
     if isinstance(param, int):
@@ -23,12 +22,28 @@ def findNote(data, param):
     print("Нет такой записи!")
     return False
 
-def showAll(data):
-    massage = ""
+def showNotes(data):
+    print(notesToString(data))
+
+def showNotesInInterval(data, dateStart, dateEnd):
+    print(notesToString(samplingNoteByDate(data, dateStart, dateEnd)))
+
+def samplingNoteByDate(data, dateStart, dateEnd):
+    selection = list()
+    if dateStart == None and dateEnd != None:
+        for note in data:
+            if note["date"] <= dateEnd:
+                selection.append(note)
+        return selection
+    if dateStart != None and dateEnd == None:
+        for note in data:
+            if dateStart <= note["date"]:
+                selection.append(note)
+        return selection
     for note in data:
-        noteText = noteToString(note)
-        massage +=  noteText
-    print(massage)
+        if dateStart <= note["date"] <= dateEnd:
+            selection.append(note)
+    return selection
 
 def deleteNote(data, param, path):
     note = findNote(data, param)
